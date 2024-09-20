@@ -1,0 +1,161 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Address {
+  id        Int      @id @default(autoincrement())
+  address   String
+  city      String
+  state     String
+  country   String
+  postcode  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  users     User[]
+}
+
+model Category {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String
+  tags        String[]
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Product {
+  id                Int            @id @default(autoincrement())
+  slug              String         @unique
+  name              String
+  shortDescription  String
+  longDescription   String
+  tags              String[]
+  category          Category       @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  categoryId        Int
+  price             Float
+  unit              String
+  thumbnail         String
+  availableQuantity Int
+  averageRating     Float
+  reviewCount       Int
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+  carts             Cart[]
+  reviews           Review[]
+  orders            OrderProduct[]
+}
+
+model User {
+  id          Int      @id @default(autoincrement())
+  email       String   @unique
+  password    String
+  phone       String
+  name        String
+  role        String
+  gender      String
+  dateOfBirth DateTime
+  address     Address  @relation(fields: [addressId], references: [id])
+  addressId   Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  carts       Cart[]
+  reviews     Review[]
+  orders      Order[]
+  coupons     Coupon[]
+}
+
+model Cart {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId    Int
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  productId Int
+  quantity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Order {
+  id            Int            @id @default(autoincrement())
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId        Int
+  products      OrderProduct[]
+  shippingFee   Float
+  discount      Float
+  coupon        Coupon?        @relation(fields: [couponId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  couponId      Int?
+  orderStatus   OrderStatus    @default(PENDING)
+  paymentStatus PaymentStatus  @default(PENDING)
+  totalAmount   Float
+  transactionId Int            @unique @default(autoincrement())
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model OrderProduct {
+  id        Int     @id @default(autoincrement())
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  orderId   Int
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  productId Int
+  quantity  Int
+}
+
+model Coupon {
+  id         Int      @id @default(autoincrement())
+  code       String   @unique
+  discount   Float
+  validFrom  DateTime
+  validUntil DateTime
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId     Int
+  orders     Order[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  productId Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId    Int
+  rating    Float
+  comment   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Faq {
+  id        Int      @id @default(autoincrement())
+  question  String
+  answer    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum OrderStatus {
+  PENDING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REJECTED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  REFUNDED
+  CANCELLED
+}
+
+enum Role {
+  ADMIN
+  USER
+}
