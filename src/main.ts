@@ -12,29 +12,43 @@ async function bootstrap() {
     rawBody: true,
   });
 
+  // Swagger configuration
   const config = new DocumentBuilder()
     .setTitle('GiftCart API')
-    .setDescription('API for GiftCart application')
+    .setDescription(
+      'API for managing GiftCart application operations, including products, orders, coupons, and user interactions.',
+    )
     .setVersion('0.1')
-    .addBearerAuth()
+    .addBearerAuth({
+      type: 'http',
+      scheme: 'bearer',
+      bearerFormat: 'JWT',
+    })
+    .addTag('Products', 'Endpoints related to product management')
+    .addTag('Orders', 'Endpoints for order processing and management')
+    .addTag('Coupons', 'Endpoints for managing discount coupons')
+    .addTag('Users', 'Endpoints for user account and authentication management')
     .build();
 
   // Enable global validation pipe
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true, // Strip any properties not included in the DTO
-      forbidNonWhitelisted: true, // Throw an error if non-whitelisted properties are present
-      transform: true, // Automatically transform payloads to the expected types
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
     }),
   );
 
+  // Create Swagger document and set up the Swagger UI
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
+  // Start the application and log the URL
   await app.listen(process.env.PORT || 9000, () => {
     console.log(
       `Server is running on http://localhost:${process.env.PORT || 9000}`,
     );
   });
 }
+
 bootstrap();

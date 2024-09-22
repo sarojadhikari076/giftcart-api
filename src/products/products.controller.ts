@@ -1,69 +1,109 @@
 import { Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiQuery,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { GetUser } from 'src/users/get-user.decorator';
 import { User } from '@prisma/client';
 import { SearchProductDto } from './dto/search-product.dto';
 
+@ApiTags('Products') // Grouping all product-related endpoints under "Products" in Swagger
 @Controller('products')
-@ApiTags('Products') // Tag for grouping in Swagger
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Get()
-  @ApiOperation({ summary: 'Retrieve all products with optional filters' })
+  @ApiOperation({
+    summary: 'Retrieve all products',
+    description:
+      'Retrieve a list of all products with optional filters for search, category, sorting, and price range.',
+  })
   @ApiQuery({
     name: 'query',
     required: false,
-    description: 'Search term for product names',
+    description: 'Search term to filter products by name',
   })
   @ApiQuery({
     name: 'category',
     required: false,
-    description: 'Filter by product category',
+    description: 'Filter products by their category',
   })
   @ApiQuery({
     name: 'sort',
     required: false,
-    description: 'Sort order for the products',
+    description: 'Sort the products by criteria (e.g., price, popularity)',
   })
   @ApiQuery({
     name: 'priceRange',
     required: false,
-    description: 'Price range filter (e.g., "10-50")',
+    description: 'Filter products by price range (e.g., "10-50")',
   })
   @ApiQuery({
     name: 'take',
     required: false,
-    description: 'Number of products to return',
+    description: 'Limit the number of products returned (pagination)',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'List of products retrieved successfully',
   })
   findAll(@Query() queries: SearchProductDto) {
     return this.productsService.findAll(queries);
   }
 
   @Get('new-arrivals')
-  @ApiOperation({ summary: 'Retrieve new arrivals' })
+  @ApiOperation({
+    summary: 'Retrieve new arrival products',
+    description:
+      'Fetch the list of products that have recently arrived in the store.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'New arrival products retrieved successfully',
+  })
   findNewArrivals() {
     return this.productsService.findNewArrivals();
   }
 
   @Get('best-selling')
-  @ApiOperation({ summary: 'Retrieve best-selling products' })
+  @ApiOperation({
+    summary: 'Retrieve best-selling products',
+    description:
+      'Fetch the list of products that are the best sellers in the store.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Best-selling products retrieved successfully',
+  })
   findBestSelling() {
     return this.productsService.findBestSelling();
   }
 
   @Get('featured')
-  @ApiOperation({ summary: 'Retrieve featured products' })
+  @ApiOperation({
+    summary: 'Retrieve featured products',
+    description: 'Fetch the list of featured products in the store.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Featured products retrieved successfully',
+  })
   findFeatured() {
     return this.productsService.findFeatured();
   }
 
-  @UseGuards(JwtAuthGuard) // Protects route with JWT authentication
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth() // Indicates that the route requires JWT auth
   @Get('birthday')
   @ApiOperation({
-    summary: 'Retrieve birthday products for the logged-in user',
+    summary: 'Retrieve birthday products for logged-in user',
+    description:
+      'Fetch personalized products or discounts for the user around their birthday.',
   })
   @ApiResponse({
     status: 200,
@@ -74,16 +114,24 @@ export class ProductsController {
   }
 
   @Get(':slug')
-  @ApiOperation({ summary: 'Retrieve a single product by its slug' })
+  @ApiOperation({
+    summary: 'Retrieve product by slug',
+    description: 'Fetch detailed information for a single product by its slug.',
+  })
   @ApiResponse({ status: 200, description: 'Product retrieved successfully' })
   @ApiResponse({ status: 404, description: 'Product not found' })
   async findOne(@Param('slug') slug: string) {
     return this.productsService.findOne(slug);
   }
 
-  @UseGuards(JwtAuthGuard) // Protects route with JWT authentication
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth() // Indicates that the route requires JWT auth
   @Post(':id/search-history')
-  @ApiOperation({ summary: 'Upsert search history for a product' })
+  @ApiOperation({
+    summary: 'Upsert search history for a product',
+    description:
+      'Create or update the search history for a specific product based on user actions.',
+  })
   @ApiResponse({
     status: 200,
     description: 'Search history updated successfully',

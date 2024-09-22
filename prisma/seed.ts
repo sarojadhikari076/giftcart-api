@@ -428,22 +428,6 @@ const categories: Prisma.CategoryCreateInput[] = [
 const products: Prisma.ProductCreateInput[] = [
   {
     name: 'Laptop',
-    shortDescription: 'This is a laptop',
-    longDescription: 'This is a long description of a laptop',
-    price: 1000,
-    availableQuantity: 10,
-    averageRating: 4.5,
-    category: {
-      connect: { id: 1 },
-    },
-    reviewCount: 10,
-    slug: 'laptop',
-    thumbnail: 'laptop.jpg',
-    unit: 'pcs',
-    tags: { set: ['laptop', 'electronics', 'tech'] },
-  },
-  {
-    name: 'Laptop',
     shortDescription: 'A powerful laptop for personal and professional use.',
     longDescription:
       'This high-performance laptop features the latest processor, a full HD display, and ample storage for both work and entertainment. Ideal for students, professionals, and gamers alike.',
@@ -455,7 +439,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 25,
     slug: 'laptop-2',
-    thumbnail: 'laptop.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727023560/products/svekc8ujhzt8yvwhppdi.jpg',
     unit: 'pcs',
     tags: { set: ['laptop', 'electronics', 'tech', 'gadgets', 'computers'] },
   },
@@ -472,7 +457,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 40,
     slug: 'smartphone',
-    thumbnail: 'smartphone.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727023602/products/vx6n9fuxvmtr0eisyfjk.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -499,7 +485,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 60,
     slug: 'wireless-headphones',
-    thumbnail: 'wireless-headphones.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727023643/products/ck3bvkyiqojswkdnxbrk.jpg',
     unit: 'pcs',
     tags: {
       set: ['headphones', 'wireless', 'electronics', 'audio', 'music', 'tech'],
@@ -518,7 +505,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 35,
     slug: 'smartwatch',
-    thumbnail: 'smartwatch.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727023685/products/wbwb3kiqnju0yvxo1ero.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -545,7 +533,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 50,
     slug: 'bluetooth-speaker-2',
-    thumbnail: 'bluetooth-speaker.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727023709/products/pgxbdgo83kzridqrlpri.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -572,7 +561,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 20,
     slug: 't-shirt',
-    thumbnail: 't-shirt.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727023743/products/zh7znqxf0pf4pqyl7frj.jpg',
     unit: 'pcs',
     tags: {
       set: ['t-shirt', 'clothing', 'fashion', 'casual', 'cotton', 'apparel'],
@@ -591,7 +581,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 30,
     slug: 'jeans',
-    thumbnail: 'jeans.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727023777/products/ybynlbufcb4shwekhjha.jpg',
     unit: 'pcs',
     tags: {
       set: ['jeans', 'clothing', 'fashion', 'denim', 'apparel', 'casual'],
@@ -610,7 +601,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 45,
     slug: 'jacket',
-    thumbnail: 'jacket.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727023817/products/emsvhpuc8pleyq7kebz8.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -637,7 +629,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 50,
     slug: 'sneakers',
-    thumbnail: 'sneakers.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727023857/products/bikkyy06oxntildpeqq2.jpg',
     unit: 'pairs',
     tags: {
       set: [
@@ -664,7 +657,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 40,
     slug: 'dress',
-    thumbnail: 'dress.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727023894/products/olr7hdbnvtnd7forjsz6.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -691,7 +685,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 20,
     slug: 'refrigerator',
-    thumbnail: 'refrigerator.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727023917/products/e7nip3h5jkeoshgho04g.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -719,7 +714,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 30,
     slug: 'washing-machine',
-    thumbnail: 'washing-machine.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727023967/products/oxcyavjv9aytiwykfjk2.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -744,7 +740,8 @@ const products: Prisma.ProductCreateInput[] = [
     category: { connect: { id: 3 } },
     reviewCount: 25,
     slug: 'microwave-oven',
-    thumbnail: 'microwave-oven.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727024012/products/ru0ociaoatn58fyvbb8c.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -769,7 +766,8 @@ const products: Prisma.ProductCreateInput[] = [
     category: { connect: { id: 3 } },
     reviewCount: 15,
     slug: 'air-purifier',
-    thumbnail: 'air-purifier.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727024033/products/zs3dneol1ygs68shb6a1.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -795,7 +793,8 @@ const products: Prisma.ProductCreateInput[] = [
     category: { connect: { id: 3 } },
     reviewCount: 40,
     slug: 'coffee-maker',
-    thumbnail: 'coffee-maker.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727024068/products/pw9srk2uhyhmrsfk9itl.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -821,7 +820,8 @@ const products: Prisma.ProductCreateInput[] = [
     category: { connect: { id: 4 } },
     reviewCount: 55,
     slug: 'science-fiction-novel',
-    thumbnail: 'science-fiction-novel.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727024102/products/p5jjkwpd7iydfp9mzod7.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -846,7 +846,8 @@ const products: Prisma.ProductCreateInput[] = [
     category: { connect: { id: 4 } },
     reviewCount: 30,
     slug: 'biography',
-    thumbnail: 'biography.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727024129/products/a9otlpunpfhknn7znlaa.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -871,7 +872,8 @@ const products: Prisma.ProductCreateInput[] = [
     category: { connect: { id: 4 } },
     reviewCount: 35,
     slug: 'cookbook',
-    thumbnail: 'cookbook.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727024156/products/pqbxlgarsf79jiq5glcx.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -896,7 +898,8 @@ const products: Prisma.ProductCreateInput[] = [
     category: { connect: { id: 4 } },
     reviewCount: 25,
     slug: 'travel-guide',
-    thumbnail: 'travel-guide.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727024180/products/d9hc9puhbtx1jn4tw0md.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -921,7 +924,8 @@ const products: Prisma.ProductCreateInput[] = [
     category: { connect: { id: 4 } },
     reviewCount: 40,
     slug: 'self-help-book',
-    thumbnail: 'self-help-book.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727024213/products/egqwqxb5pl0slwbadhqj.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -948,7 +952,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 15,
     slug: 'tablet',
-    thumbnail: 'tablet.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727024244/products/bjuoud42qawaiuwcwgll.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -976,7 +981,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 20,
     slug: 'digital-camera',
-    thumbnail: 'digital-camera.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727024269/products/l4rypdmkvpzmxgucltbr.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1003,7 +1009,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 10,
     slug: 'smart-home-hub',
-    thumbnail: 'smart-home-hub.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727024298/products/twgxnfvom40iqgyzjxna.png',
     unit: 'pcs',
     tags: {
       set: [
@@ -1030,7 +1037,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 30,
     slug: 'external-hard-drive',
-    thumbnail: 'external-hard-drive.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727024324/products/jehpc8vu28wqsbqqfmht.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1058,7 +1066,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 25,
     slug: 'home-security-camera',
-    thumbnail: 'home-security-camera.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727024397/products/ex4p0s3lrtntjkpvymbu.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1085,7 +1094,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 25,
     slug: 'sweater',
-    thumbnail: 'sweater.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727024423/products/vbmg0kog2yocfsuocbe3.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1112,7 +1122,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 20,
     slug: 'blazer',
-    thumbnail: 'blazer.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727024465/products/u2spqvskqhnys9u3kgcw.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1139,7 +1150,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 25,
     slug: 'skirt',
-    thumbnail: 'skirt.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727024495/products/nye6zfzs50yz7c1hrfcw.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1166,7 +1178,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 30,
     slug: 'shorts',
-    thumbnail: 'shorts.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727024518/products/kmvkmia4srpmtxlvzukp.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1193,7 +1206,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 15,
     slug: 'cardigan',
-    thumbnail: 'cardigan.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727024544/products/uhf9jtwqswtby8e0izke.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1220,7 +1234,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 20,
     slug: 'toaster',
-    thumbnail: 'toaster.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727024566/products/uopkquf4w9ypubmddfpo.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1247,7 +1262,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 25,
     slug: 'blender',
-    thumbnail: 'blender.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727024602/products/rv2hiz0fxp9i2lu43djr.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1274,7 +1290,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 18,
     slug: 'electric-kettle',
-    thumbnail: 'electric-kettle.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727024634/products/rhbjyynjxpwlv1vzbcdb.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1301,7 +1318,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 12,
     slug: 'dishwasher',
-    thumbnail: 'dishwasher.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727024657/products/uoa78hxj8y0k8ea7e62m.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1328,7 +1346,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 14,
     slug: 'washing-machine',
-    thumbnail: 'washing-machine.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727024684/products/f4mcsxq1a3fs1re5b92t.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1355,7 +1374,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 20,
     slug: 'mystery-thriller',
-    thumbnail: 'mystery-thriller.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727024715/products/mcz4udt1m6hkpsnfthdc.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1382,7 +1402,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 25,
     slug: 'fantasy-epic',
-    thumbnail: 'fantasy-epic.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727024750/products/qytmb21cdcvcmakgjwzv.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1409,7 +1430,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 30,
     slug: 'historical-fiction',
-    thumbnail: 'historical-fiction.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727024779/products/ocw06v4zlvuqxedd3j0i.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1436,7 +1458,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 40,
     slug: 'poetry-collection',
-    thumbnail: 'poetry-collection.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727024806/products/ohfhfv7halmc83uo4y76.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1464,7 +1487,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 20,
     slug: 'graphic-novel',
-    thumbnail: 'graphic-novel.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727024831/products/icrjnynm1pdtha5fys6g.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1491,7 +1515,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 18,
     slug: 'smartwatch-1',
-    thumbnail: 'smartwatch.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727024854/products/owxqhpvcixwyarglemuu.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1518,7 +1543,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 22,
     slug: 'gaming-console',
-    thumbnail: 'gaming-console.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727024875/products/sfp7q8x15h2mcte9kt0j.webp',
     unit: 'pcs',
     tags: {
       set: [
@@ -1545,7 +1571,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 25,
     slug: 'bluetooth-speaker',
-    thumbnail: 'bluetooth-speaker.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727024915/products/rebttihzbbisj6gamtd9.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1573,7 +1600,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 12,
     slug: 'vr-headset',
-    thumbnail: 'vr-headset.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727024948/products/i3f3zyzolmc0ona8qpnf.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1601,7 +1629,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 15,
     slug: 'digital-frame',
-    thumbnail: 'digital-frame.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727024978/products/qq9pgo5ltf7nihx86heg.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1628,7 +1657,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 20,
     slug: 'jacket',
-    thumbnail: 'jacket.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727025003/products/kpqkne5lp9icn82ys99d.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1655,7 +1685,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 15,
     slug: 'dress',
-    thumbnail: 'dress.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727025031/products/s3afzraozaqievvm9acp.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1682,7 +1713,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 30,
     slug: 't-shirt',
-    thumbnail: 't-shirt.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727025069/products/hxvhzeb4ej1h8r7tic18.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1709,7 +1741,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 20,
     slug: 'hoodie',
-    thumbnail: 'hoodie.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727025094/products/bkfou7gk4c9lxiga1pbc.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1736,7 +1769,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 25,
     slug: 'scarf',
-    thumbnail: 'scarf.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727025115/products/lahsoykzxprtkyzccaon.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1763,7 +1797,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 14,
     slug: 'air-purifier',
-    thumbnail: 'air-purifier.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727025143/products/ee4a1mdgtf9xtdyryirf.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1790,7 +1825,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 18,
     slug: 'coffee-maker',
-    thumbnail: 'coffee-maker.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727025174/products/uglnojei1de56f1oiiil.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1817,7 +1853,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 22,
     slug: 'microwave-oven',
-    thumbnail: 'microwave-oven.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727025202/products/lzv9ehqitw3mkhw8psjv.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1844,7 +1881,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 28,
     slug: 'toaster',
-    thumbnail: 'toaster.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727025230/products/fqt9x7iwg44k6sfgnsoc.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1871,7 +1909,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 16,
     slug: 'blender',
-    thumbnail: 'blender.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727025254/products/djly6jzzj4ik7eswel4a.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1898,7 +1937,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 20,
     slug: 'science-fiction-novel',
-    thumbnail: 'science-fiction-novel.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727025279/products/ghkjibggcjn38uyyjlev.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1925,7 +1965,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 30,
     slug: 'self-help-book',
-    thumbnail: 'self-help-book.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727025306/products/houoewiwmemfub3xqpca.png',
     unit: 'pcs',
     tags: {
       set: [
@@ -1952,7 +1993,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 22,
     slug: 'cookbook',
-    thumbnail: 'cookbook.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727025329/products/omsvi4zfxjndiavifj5o.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -1979,7 +2021,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 25,
     slug: 'biography',
-    thumbnail: 'biography.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727025350/products/zi2zh4qs3qxizyjhmcrt.jpg',
     unit: 'pcs',
     tags: {
       set: [
@@ -2006,7 +2049,8 @@ const products: Prisma.ProductCreateInput[] = [
     },
     reviewCount: 12,
     slug: 'comprehensive-cookbook',
-    thumbnail: 'comprehensive-cookbook.jpg',
+    thumbnail:
+      'https://res.cloudinary.com/sliceup/image/upload/v1727025372/products/oe51lqalhoxjqxm4v0ys.png',
     unit: 'pcs',
     tags: {
       set: [

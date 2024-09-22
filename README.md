@@ -79,3 +79,23 @@ docker compose up --build
 ```
 
 The application will be running at `http://localhost:9000`.
+
+### Seed Data
+
+To seed the database with sample data, run the following command:
+
+```bash
+docker compose exec app npx prisma db seed
+```
+
+### Deploying the migrations
+
+To deploy the migrations, run the following command:
+
+```bash
+docker compose exec app npx prisma migrate deploy
+```
+
+### Swagger Documentation
+
+The Swagger documentation can be accessed at `http://localhost:9000/api`.
