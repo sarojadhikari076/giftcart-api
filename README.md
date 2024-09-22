@@ -1,73 +1,81 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# GiftCart API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Overview
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+GiftCart is an e-commerce platform that provides users with an intuitive shopping experience, including a unique birthday discount campaign. Customers can register, browse products, manage their shopping cart, and receive personalized discounts via email.
 
-## Description
+## Technologies Used
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **NestJS**: A progressive Node.js framework for building efficient and scalable server-side applications.
+- **TypeScript**: A superset of JavaScript that adds static types, enhancing code quality and maintainability.
+- **PostgreSQL**: A powerful relational database management system used for storing application data.
+- **Redis**: An in-memory data structure store used for caching and improving performance.
+- **Prisma**: An ORM that simplifies database access and management.
+- **Docker**: A platform for developing, shipping, and running applications in containers.
+- **Nodemailer**: A module for sending emails from Node.js applications.
+- **Stripe**: A payment processing platform for handling transactions securely.
+- **Bull**: A queue library for managing background jobs and tasks.
+- **Swagger**: A tool for documenting APIs, providing a user-friendly interface to explore the API endpoints.
+- **Jest**: A testing framework for ensuring code quality through unit and integration tests.
 
-## Installation
+### Additional Libraries
 
-```bash
-$ yarn install
-```
+- **bcrypt**: For hashing passwords.
+- **class-validator**: For validating data objects.
+- **class-transformer**: For transforming and serializing objects.
+- **date-fns**: For date manipulation.
+- **uuid**: For generating unique identifiers.
 
-## Running the app
+## How to Start and Run the Application
+
+### Cloning the Repository
+
+Clone the repository from GitHub:
 
 ```bash
-# development
-$ yarn run start
-
-# watch mode
-$ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
+git clone https://github.com/sarojadhikari076/giftcart-api
+cd giftcart-api
 ```
 
-## Test
+### Setting Up the Environment Variables
+
+Create a `.env` file in the root directory and add the following environment variables:
 
 ```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
+PORT=9000
+JWT_SECRET=your_jwt_secret
+STRIPE_SECRET_KEY=your_stripe_secret_key
+EMAIL_HOST=your_email_host
+EMAIL_PORT=your_email_port
+EMAIL_HOST_USER=your_email_username
+EMAIL_HOST_PASSWORD=your_email_password
+EMAIL_FROM=your_email_from
+DATABASE_URL=postgresql://user:password@db:5432/giftcart
+REDIS_URL=redis://redis:6379
+NODE_ENV=development
 ```
 
-## Support
+### Running the Application
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+To start the application, run the following commands:
 
-## Stay in touch
+```bash
+# Install the dependencies
+npm install
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+# Start the application
+npm run start
+```
 
-## License
+The application will be running at `http://localhost:9000`.
 
-Nest is [MIT licensed](LICENSE).
+### Running with Docker
+
+To run the application using Docker, execute the following commands:
+
+```bash
+# Build the Docker image
+docker compose up --build
+```
+
+The application will be running at `http://localhost:9000`.
