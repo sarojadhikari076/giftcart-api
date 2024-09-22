@@ -19,7 +19,7 @@ export class EmailService {
   ) {}
 
   // Cron job runs every week
-  @Cron(CronExpression.EVERY_10_SECONDS)
+  @Cron(CronExpression.EVERY_WEEK)
   async sendBirthdayEmail() {
     const today = new Date();
     const nextWeek = addDays(today, 7);
