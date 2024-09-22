@@ -4,22 +4,12 @@ import slugify from 'slugify';
 
 const prisma = new PrismaClient();
 
-const address: Prisma.AddressCreateInput = {
-  address: '1234 Main St',
-  city: 'London',
-  country: 'UK',
-  postcode: 'SW1A 1AA',
-  state: 'London',
-};
-
 const admin: Prisma.UserCreateInput = {
   email: 'sarojadhikari076@gmail.com',
   name: 'Saroj Adhikari',
-  address: {
-    create: address,
-  },
+  address: '11 Devonshire Road, London',
   password: hashSync('password', 10),
-  dateOfBirth: new Date('1999-01-01'),
+  dateOfBirth: '1990-09-25T00:00:00Z',
   gender: 'Male',
   phone: '0123456789',
   role: 'ADMIN',

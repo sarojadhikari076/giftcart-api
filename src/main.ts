@@ -1,6 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -14,6 +18,15 @@ async function bootstrap() {
     .setVersion('0.1')
     .addBearerAuth()
     .build();
+
+  // Enable global validation pipe
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true, // Strip any properties not included in the DTO
+      forbidNonWhitelisted: true, // Throw an error if non-whitelisted properties are present
+      transform: true, // Automatically transform payloads to the expected types
+    }),
+  );
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

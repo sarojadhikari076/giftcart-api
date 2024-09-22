@@ -1,3 +1,7 @@
+import { IsOptional, IsString } from 'class-validator';
+
 export class CreateOrderDto {
-  couponCode: string;
+  @IsString()
+  @IsOptional()
+  coupon: string;
 }

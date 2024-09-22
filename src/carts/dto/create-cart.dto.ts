@@ -4,11 +4,17 @@ import { ApiProperty } from '@nestjs/swagger';
 export class CreateCartDto {
   @IsNumber()
   @IsNotEmpty()
-  @ApiProperty()
+  @ApiProperty({
+    description: 'ID of the product to be added to the cart',
+    example: 123,
+  })
   productId: number;
 
   @IsNumber()
   @IsNotEmpty()
-  @ApiProperty()
+  @ApiProperty({
+    description: 'Quantity of the product to be added to the cart',
+    example: 2,
+  })
   quantity: number;
 }
