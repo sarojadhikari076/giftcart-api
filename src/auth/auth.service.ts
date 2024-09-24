@@ -116,6 +116,8 @@ export class AuthService {
       throw new NotFoundException('User not found');
     }
 
+    delete user.password; // Remove password before returning user
+
     return user;
   }
 

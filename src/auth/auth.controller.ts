@@ -170,6 +170,10 @@ export class AuthController {
           address: '456 Elm Street, Birmingham',
         },
       },
+      invalid: {
+        summary: 'Invalid example',
+        value: { email: 'invalidemail' },
+      },
     },
   })
   @ApiOkResponse({
@@ -212,6 +216,13 @@ export class AuthController {
         value: {
           currentPassword: 'OldP@ssw0rd',
           newPassword: 'NewP@ssw0rd',
+        },
+      },
+      invalid: {
+        summary: 'Invalid example',
+        value: {
+          currentPassword: 'InvalidPassword',
+          newPassword: 'short',
         },
       },
     },

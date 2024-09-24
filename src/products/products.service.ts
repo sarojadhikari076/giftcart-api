@@ -169,7 +169,9 @@ export class ProductsService {
     const favoriteCategoryId = await this.getUserFavoriteCategory(userId);
     const commonTags = await this.getCommonTags(userId);
 
-    const recommendedProducts = await this.prisma.product.findMany({
+    const similarProducts = await this.findSimilarProducts(userId);
+
+    const topRecommendedProducts = await this.prisma.product.findMany({
       where: {
         OR: [
           { id: { in: topSearchedProductIds } },
@@ -181,11 +183,13 @@ export class ProductsService {
       take: 10,
     });
 
-    if (recommendedProducts.length === 0) {
+    const products = similarProducts.concat(topRecommendedProducts);
+
+    if (products.length === 0) {
       return await this.findFeatured();
     }
 
-    return recommendedProducts;
+    return products;
   }
 
   /**
@@ -253,6 +257,35 @@ export class ProductsService {
         categoryFrequency[a] > categoryFrequency[b] ? a : b,
       ),
     );
+  }
+
+  // Write a function for fetching 5 similar products based on the user's purchase history.
+
+  /**
+   * Retrieves 5 similar products based on the user's purchase history.
+   *
+   * @param {number} userId - ID of the user.
+   * @returns {Promise<Product[]>} - A promise that resolves to an array of similar products.
+   */
+  async findSimilarProducts(userId: number): Promise<Product[]> {
+    const orderProducts = await this.prisma.orderProduct.findMany({
+      where: { order: { userId } },
+      include: { product: true },
+    });
+
+    const productIds = orderProducts.map((order) => order.product.id);
+
+    const similarProducts = await this.prisma.product.findMany({
+      where: {
+        id: { in: productIds },
+      },
+      take: 5,
+      orderBy: {
+        availableQuantity: 'desc',
+      },
+    });
+
+    return similarProducts;
   }
 
   /**

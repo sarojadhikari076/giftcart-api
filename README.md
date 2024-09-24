@@ -93,13 +93,13 @@ The application will be running at http://localhost:9000.
 1. Build the Docker image:
 
 ```bash
-docker build -t giftcart-api .
+docker compose up --build
 ```
 
 2. Run the Docker container:
 
 ```bash
-docker run -p 9000:9000 giftcart-api
+docker compose up
 ```
 
 The application will be running at http://localhost:9000.
@@ -122,4 +122,34 @@ docker-compose exec app npx prisma db seed
 
 ## Accessing Swagger Documentation
 
-The Swagger documentation can be accessed at http://localhost:9000/api. This provides a user-friendly interface to explore the API endpoints, view request/response formats, and test the API functionality.
+The Swagger documentation can be accessed at http://localhost:9000/api-docs. This provides a user-friendly interface to explore the API endpoints, view request/response formats, and test the API functionality.
+
+## Generating Compodoc Documentation
+
+To generate the Compodoc documentation, run the following command:
+
+```bash
+npx compodoc -p tsconfig.doc.json
+```
+
+The documentation will be generated in the `documentation` folder.
+
+## Running the Compodoc Documentation
+
+To run the Compodoc documentation, run the following command:
+
+```bash
+npx compodoc -s
+```
+
+OR
+
+```bash
+npm run doc:serve
+```
+
+The documentation will be running at http://localhost:8080.
+
+## Notion Documentation
+
+The detailed documentation for the project can be found on Notion: [GiftCart API Documentation](https://sarojadk.notion.site/GiftCart-Documentation-104364def3fa80b4a0f9f083b57696da)

@@ -24,6 +24,8 @@ import {
   ApiBearerAuth,
   ApiBadRequestResponse,
   ApiOperation,
+  ApiBody,
+  ApiParam,
 } from '@nestjs/swagger';
 
 @UseGuards(JwtAuthGuard)
@@ -49,6 +51,26 @@ export class CartsController {
   @ApiBadRequestResponse({ description: 'Invalid cart data provided.' })
   @ApiUnauthorizedResponse({
     description: 'Unauthorized - invalid or missing JWT token.',
+  })
+  @ApiBody({
+    type: CreateCartDto,
+    description: 'The data transfer object containing cart details.',
+    examples: {
+      valid: {
+        summary: 'Valid example',
+        value: {
+          productId: 1,
+          quantity: 2,
+        },
+      },
+      invalid: {
+        summary: 'Invalid example',
+        value: {
+          productId: 1,
+          quantity: 0,
+        },
+      },
+    },
   })
   create(@GetUser() user: User, @Body() createCartDto: CreateCartDto) {
     return this.cartsService.create(createCartDto, user.id);
@@ -107,6 +129,21 @@ export class CartsController {
   @ApiUnauthorizedResponse({
     description: 'Unauthorized - invalid or missing JWT token.',
   })
+  @ApiParam({
+    name: 'id',
+    description: 'The ID of the cart.',
+    type: 'number',
+    examples: {
+      valid: {
+        summary: 'Valid example',
+        value: 1,
+      },
+      invalid: {
+        summary: 'Invalid example',
+        value: 'invalid',
+      },
+    },
+  })
   findOne(
     @Param('id', ParseIntPipe) id: number,
     @GetUser() user: User,
@@ -133,6 +170,21 @@ export class CartsController {
   @ApiUnauthorizedResponse({
     description: 'Unauthorized - invalid or missing JWT token.',
   })
+  @ApiParam({
+    name: 'id',
+    description: 'The ID of the cart.',
+    type: 'number',
+    examples: {
+      valid: {
+        summary: 'Valid example',
+        value: 1,
+      },
+      invalid: {
+        summary: 'Invalid example',
+        value: 'invalid',
+      },
+    },
+  })
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateCartDto: UpdateCartDto,
@@ -156,6 +208,21 @@ export class CartsController {
   @ApiNotFoundResponse({ description: 'Cart not found.' })
   @ApiUnauthorizedResponse({
     description: 'Unauthorized - invalid or missing JWT token.',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'The ID of the cart.',
+    type: 'number',
+    examples: {
+      valid: {
+        summary: 'Valid example',
+        value: 1,
+      },
+      invalid: {
+        summary: 'Invalid example',
+        value: 'invalid',
+      },
+    },
   })
   remove(
     @Param('id', ParseIntPipe) id: number,

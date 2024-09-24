@@ -42,6 +42,8 @@ export class CouponsController {
     description:
       'Invalid coupon data. Ensure all required fields are correctly filled.',
   })
+  @ApiBearerAuth()
+  @UseGuards(RolesGuard)
   create(@Body() createCouponDto: CreateCouponDto) {
     return this.couponsService.create(createCouponDto);
   }
@@ -60,6 +62,7 @@ export class CouponsController {
   })
   @ApiOkResponse({ description: 'Coupon is valid or invalid.' })
   @ApiUnauthorizedResponse({ description: 'User is not authenticated.' })
+  @ApiBearerAuth()
   checkValidities(@Body() body: { coupon: string }, @GetUser() user: User) {
     return this.couponsService.checkValidities(body.coupon, user.id);
   }
@@ -76,6 +79,7 @@ export class CouponsController {
     description:
       'Fetch a special discount coupon tied to the user’s birthday. Each user is entitled to one birthday coupon per year.',
   })
+  @ApiBearerAuth()
   @ApiOkResponse({ description: 'Birthday coupon details.' })
   @ApiUnauthorizedResponse({ description: 'User is not authenticated.' })
   getBirthdayCoupon(@GetUser() user: User) {
@@ -87,7 +91,7 @@ export class CouponsController {
    * @returns Confirmation of coupon removal.
    */
   @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(RolesGuard)
   @Roles(Role.ADMIN)
   @Delete('/remove-all')
   @ApiOperation({
