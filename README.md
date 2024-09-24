@@ -2,7 +2,17 @@
 
 ## Overview
 
-GiftCart is an e-commerce platform that provides users with an intuitive shopping experience, including a unique birthday discount campaign. Customers can register, browse products, manage their shopping cart, and receive personalized discounts via email.
+**GiftCart** is an innovative e-commerce platform designed to provide users with an intuitive shopping experience, including a unique birthday discount campaign. Customers can register, browse products, manage their shopping cart, and receive personalised discounts via email. The platform aims to enhance customer engagement and increase sales through targeted promotions and a seamless shopping experience.
+
+## Features
+
+- User registration and authentication
+- Product browsing and search functionality
+- Shopping cart management
+- Unique birthday discount campaign
+- Email notifications for discounts and updates
+- Secure payment processing via Stripe
+- API documentation with Swagger
 
 ## Technologies Used
 
@@ -20,13 +30,20 @@ GiftCart is an e-commerce platform that provides users with an intuitive shoppin
 
 ### Additional Libraries
 
-- **bcrypt**: For hashing passwords.
-- **class-validator**: For validating data objects.
-- **class-transformer**: For transforming and serializing objects.
-- **date-fns**: For date manipulation.
-- **uuid**: For generating unique identifiers.
+- **bcrypt**: For hashing passwords and ensuring secure authentication.
+- **class-validator**: For validating data objects and ensuring data integrity.
+- **class-transformer**: For transforming and serialising objects for API responses.
+- **date-fns**: For date manipulation and formatting.
+- **uuid**: For generating unique identifiers for various entities.
 
 ## How to Start and Run the Application
+
+### Prerequisites
+
+- Node.js (version 14 or higher)
+- npm (Node package manager)
+- Docker (optional, for containerised deployment)
+- PostgreSQL (for local development)
 
 ### Cloning the Repository
 
@@ -37,9 +54,9 @@ git clone https://github.com/sarojadhikari076/giftcart-api
 cd giftcart-api
 ```
 
-### Setting Up the Environment Variables
+## Setting Up the Environment Variables
 
-Create a `.env` file in the root directory and add the following environment variables:
+Create a .env file in the root directory and add the following environment variables:
 
 ```bash
 PORT=9000
@@ -55,47 +72,54 @@ REDIS_URL=redis://redis:6379
 NODE_ENV=development
 ```
 
-### Running the Application
+## Running the Application
 
-To start the application, run the following commands:
+1. Install the dependencies:
 
 ```bash
-# Install the dependencies
 npm install
+```
 
-# Start the application
+2. Start the application:
+
+```bash
 npm run start
 ```
 
-The application will be running at `http://localhost:9000`.
+The application will be running at http://localhost:9000.
 
-### Running with Docker
+## Running With Docker
 
-To run the application using Docker, execute the following commands:
-
-```bash
-# Build the Docker image
-docker compose up --build
-```
-
-The application will be running at `http://localhost:9000`.
-
-### Seed Data
-
-To seed the database with sample data, run the following command:
+1. Build the Docker image:
 
 ```bash
-docker compose exec app npx prisma db seed
+docker build -t giftcart-api .
 ```
 
-### Deploying the migrations
+2. Run the Docker container:
+
+```bash
+docker run -p 9000:9000 giftcart-api
+```
+
+The application will be running at http://localhost:9000.
+
+## Deploying Migrations
 
 To deploy the migrations, run the following command:
 
 ```bash
-docker compose exec app npx prisma migrate deploy
+docker-compose exec app npx prisma migrate deploy
 ```
 
-### Swagger Documentation
+## Seeding Sample Data
 
-The Swagger documentation can be accessed at `http://localhost:9000/api`.
+To seed the database with sample data, run the following command:
+
+```bash
+docker-compose exec app npx prisma db seed
+```
+
+## Accessing Swagger Documentation
+
+The Swagger documentation can be accessed at http://localhost:9000/api. This provides a user-friendly interface to explore the API endpoints, view request/response formats, and test the API functionality.

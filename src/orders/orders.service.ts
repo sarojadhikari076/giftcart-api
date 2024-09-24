@@ -1,9 +1,9 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { UpdateOrderDto } from './dto/update-order.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { SHIPPING_FEE } from 'src/constants/app.constants';
 import { CouponsService } from 'src/coupons/coupons.service';
+import { UpdateOrderDto } from './dto/update-order.dto';
 
 @Injectable()
 export class OrdersService {
@@ -12,9 +12,19 @@ export class OrdersService {
     private readonly couponService: CouponsService,
   ) {}
 
-  // Create a new order
+  /**
+   * Creates a new order for a user.
+   *
+   * @async
+   * @param {CreateOrderDto} createOrderDto - The data transfer object containing the order details.
+   * @param {number} userId - The ID of the user creating the order.
+   * @returns {Promise<any>} A promise that resolves to the created order object.
+   * @throws {HttpException} Throws an exception if the user's cart is empty (status 400).
+   * @example
+   * const order = await ordersService.create(createOrderDto, userId);
+   * // order contains the newly created order details.
+   */
   async create(createOrderDto: CreateOrderDto, userId: number) {
-    // Check coupon validity and redeem if applicable
     const discount = await this.couponService.checkValidities(
       createOrderDto.coupon,
       userId,
@@ -24,7 +34,6 @@ export class OrdersService {
       await this.couponService.redeemCoupon(createOrderDto.coupon, userId);
     }
 
-    // Fetch the user's cart items
     const carts = await this.prisma.cart.findMany({
       where: { userId },
       include: {
@@ -37,12 +46,10 @@ export class OrdersService {
       },
     });
 
-    // Validate cart is not empty
     if (carts.length === 0) {
       throw new HttpException('Cart is empty', 400);
     }
 
-    // Calculate subtotal and total amount
     const subtotal = carts.reduce(
       (acc, cart) => acc + cart.quantity * cart.product.price,
       0,
@@ -51,7 +58,6 @@ export class OrdersService {
       (subtotal + SHIPPING_FEE - discount * subtotal * 0.01).toFixed(2),
     );
 
-    // Create the order in the database
     const order = await this.prisma.order.create({
       data: {
         userId,
@@ -69,13 +75,20 @@ export class OrdersService {
       },
     });
 
-    // Clear the user's cart after the order is created
     await this.prisma.cart.deleteMany({ where: { userId } });
 
     return order;
   }
 
-  // Retrieve all orders for a user
+  /**
+   * Retrieves all orders for a specific user.
+   *
+   * @param {number} userId - The ID of the user whose orders are to be retrieved.
+   * @returns {Promise<Order[]>} A promise that resolves to a list of orders for the user.
+   * @example
+   * const orders = await ordersService.findAll(userId);
+   * // orders contains an array of the user's orders.
+   */
   findAll(userId: number) {
     return this.prisma.order.findMany({
       where: { userId },
@@ -86,11 +99,20 @@ export class OrdersService {
           },
         },
       },
-      orderBy: { createdAt: 'desc' }, // Sort by latest order first
+      orderBy: { createdAt: 'desc' },
     });
   }
 
-  // Retrieve a specific order by ID
+  /**
+   * Retrieves a specific order by its ID for a user.
+   *
+   * @param {number} id - The ID of the order to retrieve.
+   * @param {number} userId - The ID of the user who owns the order.
+   * @returns {Promise<Order | null>} A promise that resolves to the order object if found, otherwise null.
+   * @example
+   * const order = await ordersService.findOne(orderId, userId);
+   * // order contains the order details if found.
+   */
   findOne(id: number, userId: number) {
     return this.prisma.order.findUnique({
       where: { id, userId },
@@ -104,7 +126,16 @@ export class OrdersService {
     });
   }
 
-  // Update the order status
+  /**
+   * Updates the status of an existing order.
+   *
+   * @param {number} id - The ID of the order to update.
+   * @param {UpdateOrderDto} updateOrderDto - The data transfer object containing the new order status.
+   * @returns {Promise<Order>} A promise that resolves to the updated order object.
+   * @example
+   * const updatedOrder = await ordersService.update(orderId, updateOrderDto);
+   * // updatedOrder contains the details of the updated order.
+   */
   update(id: number, updateOrderDto: UpdateOrderDto) {
     return this.prisma.order.update({
       where: { id },
@@ -112,7 +143,16 @@ export class OrdersService {
     });
   }
 
-  // Remove an order by ID
+  /**
+   * Removes an order by its ID for a specific user.
+   *
+   * @param {number} id - The ID of the order to remove.
+   * @param {number} userId - The ID of the user who owns the order.
+   * @returns {Promise<Order>} A promise that resolves to the removed order object.
+   * @example
+   * const removedOrder = await ordersService.remove(orderId, userId);
+   * // removedOrder contains the details of the deleted order.
+   */
   remove(id: number, userId: number) {
     return this.prisma.order.delete({
       where: { id, userId },

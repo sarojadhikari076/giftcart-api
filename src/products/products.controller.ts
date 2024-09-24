@@ -12,11 +12,21 @@ import { GetUser } from 'src/users/get-user.decorator';
 import { User } from '@prisma/client';
 import { SearchProductDto } from './dto/search-product.dto';
 
-@ApiTags('Products') // Grouping all product-related endpoints under "Products" in Swagger
+/**
+ * Controller responsible for handling product-related requests.
+ * Provides various endpoints for retrieving, filtering, and managing products.
+ */
+@ApiTags('Products')
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
+  /**
+   * Retrieve a list of all products with optional filters for search, category, sorting, and price range.
+   *
+   * @param {SearchProductDto} queries - Query parameters for filtering and sorting products.
+   * @returns {Promise<Product[]>} - A list of filtered and sorted products.
+   */
   @Get()
   @ApiOperation({
     summary: 'Retrieve all products',
@@ -56,6 +66,11 @@ export class ProductsController {
     return this.productsService.findAll(queries);
   }
 
+  /**
+   * Retrieve new arrival products.
+   *
+   * @returns {Promise<Product[]>} - A list of newly arrived products.
+   */
   @Get('new-arrivals')
   @ApiOperation({
     summary: 'Retrieve new arrival products',
@@ -70,6 +85,11 @@ export class ProductsController {
     return this.productsService.findNewArrivals();
   }
 
+  /**
+   * Retrieve best-selling products.
+   *
+   * @returns {Promise<Product[]>} - A list of best-selling products.
+   */
   @Get('best-selling')
   @ApiOperation({
     summary: 'Retrieve best-selling products',
@@ -84,6 +104,11 @@ export class ProductsController {
     return this.productsService.findBestSelling();
   }
 
+  /**
+   * Retrieve featured products.
+   *
+   * @returns {Promise<Product[]>} - A list of featured products.
+   */
   @Get('featured')
   @ApiOperation({
     summary: 'Retrieve featured products',
@@ -97,6 +122,13 @@ export class ProductsController {
     return this.productsService.findFeatured();
   }
 
+  /**
+   * Retrieve personalized birthday products for the logged-in user.
+   * Requires JWT authentication.
+   *
+   * @param {User} user - The authenticated user.
+   * @returns {Promise<Product[]>} - A list of personalized products or discounts for the user's birthday.
+   */
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth() // Indicates that the route requires JWT auth
   @Get('birthday')
@@ -113,6 +145,13 @@ export class ProductsController {
     return this.productsService.findBirthdayProducts(user.id);
   }
 
+  /**
+   * Retrieve product details by slug.
+   *
+   * @param {string} slug - The product slug.
+   * @returns {Promise<Product>} - Detailed information of the requested product.
+   * @throws {NotFoundException} - If the product is not found.
+   */
   @Get(':slug')
   @ApiOperation({
     summary: 'Retrieve product by slug',
@@ -124,6 +163,15 @@ export class ProductsController {
     return this.productsService.findOne(slug);
   }
 
+  /**
+   * Create or update search history for a product based on user actions.
+   * Requires JWT authentication.
+   *
+   * @param {string} id - The product ID.
+   * @param {User} user - The authenticated user.
+   * @returns {Promise<void>} - Confirmation of the search history update.
+   * @throws {NotFoundException} - If the product is not found.
+   */
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth() // Indicates that the route requires JWT auth
   @Post(':id/search-history')

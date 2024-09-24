@@ -1,8 +1,8 @@
 {
   "name": "giftcart",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "Giftcart API Backend for E-commerce Application",
+  "author": "Saroj Adhikari",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
@@ -13,6 +13,8 @@
     "studio": "prisma studio",
     "seed": "ts-node -r tsconfig-paths/register ./prisma/seed.ts",
     "start:debug": "nest start --debug --watch",
+    "doc:generate": "compodoc -p tsconfig.json --theme material --title 'GiftCart Project Documentation' --version '1.0.0'",
+    "doc:serve": "compodoc -s",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
@@ -23,6 +25,7 @@
   },
   "dependencies": {
     "@css-inline/css-inline": "^0.14.1",
+    "@jozefazz/nestjs-redoc": "^1.0.7",
     "@nestjs-modules/mailer": "^2.0.2",
     "@nestjs/bull": "^10.2.1",
     "@nestjs/common": "^10.0.0",
@@ -43,6 +46,7 @@
     "date-fns": "^4.1.0",
     "ejs": "^3.1.10",
     "handlebars": "^4.7.8",
+    "nestjs-redoc": "^2.2.2",
     "nodemailer": "^6.9.15",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
@@ -55,6 +59,7 @@
     "uuid": "^10.0.0"
   },
   "devDependencies": {
+    "@compodoc/compodoc": "^1.1.25",
     "@nestjs/cli": "^10.0.0",
     "@nestjs/schematics": "^10.0.0",
     "@nestjs/testing": "^10.0.0",

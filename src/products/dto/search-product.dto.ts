@@ -1,55 +1,80 @@
-import { IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString, IsNumberString, Matches } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
+/**
+ * Data Transfer Object for searching products.
+ */
 export class SearchProductDto {
-  // Search query for product names or descriptions
+  /**
+   * The search query to find products by name or description.
+   * @example "laptop"
+   */
   @ApiProperty({
     description: 'The search query to find products by name or description',
-    required: false, // This field is optional
+    required: false,
     type: String,
+    example: 'laptop',
   })
   @IsString()
-  @IsOptional() // This field is optional
+  @IsOptional()
   query?: string;
 
-  // Category to filter products
+  /**
+   * The category to filter products.
+   * @example "electronics"
+   */
   @ApiProperty({
     description: 'The category to filter products',
-    required: false, // This field is optional
+    required: false,
     type: String,
+    example: 'electronics',
   })
   @IsString()
-  @IsOptional() // This field is optional
+  @IsOptional()
   category?: string;
 
-  // Sorting criteria for the search results
+  /**
+   * The criteria for sorting the results (e.g., price, popularity).
+   * @example "price"
+   */
   @ApiProperty({
     description:
       'The criteria for sorting the results (e.g., price, popularity)',
-    required: false, // This field is optional
+    required: false,
     type: String,
+    example: 'price',
   })
   @IsString()
-  @IsOptional() // This field is optional
+  @IsOptional()
   sort?: string;
 
-  // Price range for filtering products
+  /**
+   * The price range for filtering products (e.g., "10-50").
+   * @example "10-50"
+   */
   @ApiProperty({
     description: 'The price range for filtering products (e.g., "10-50")',
-    required: false, // This field is optional
+    required: false,
     type: String,
+    example: '10-50',
   })
-  @IsString()
-  @IsOptional() // This field is optional
+  @Matches(/^\d+-\d+$/, {
+    message: 'priceRange must be in the format "min-max"',
+  })
+  @IsOptional()
   priceRange?: string;
 
-  // Number of products to return
+  /**
+   * The number of products to return.
+   * @example "10"
+   */
   @ApiProperty({
     description: 'The number of products to return (e.g., "10")',
-    required: false, // This field is optional
+    required: false,
     type: String,
+    example: '10',
   })
-  @IsString()
-  @IsOptional() // This field is optional
+  @IsNumberString({}, { message: 'take must be a numeric string' })
+  @IsOptional()
   take?: string;
 }

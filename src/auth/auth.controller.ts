@@ -35,6 +35,11 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  /**
+   * Authenticate a user with email and password.
+   * @param loginDto - The user login details (email and password).
+   * @returns JWT token if login is successful.
+   */
   @Post('login')
   @ApiOperation({
     summary: 'User Login',
@@ -69,6 +74,11 @@ export class AuthController {
     return this.authService.login(loginDto.email, loginDto.password);
   }
 
+  /**
+   * Register a new user.
+   * @param registerDto - User registration details.
+   * @returns The created user entity.
+   */
   @Post('register')
   @ApiOperation({
     summary: 'User Registration',
@@ -111,6 +121,11 @@ export class AuthController {
     return this.authService.register(registerDto);
   }
 
+  /**
+   * Retrieve the details of the authenticated user.
+   * @param user - The authenticated user.
+   * @returns The authenticated user's details.
+   */
   @UseGuards(JwtAuthGuard)
   @Get('me')
   @ApiBearerAuth()
@@ -129,6 +144,12 @@ export class AuthController {
     return this.authService.getMe(user.id);
   }
 
+  /**
+   * Update basic details of the authenticated user.
+   * @param updateDetailDto - Details to update the user profile.
+   * @param user - The authenticated user.
+   * @returns The updated user entity.
+   */
   @UseGuards(JwtAuthGuard)
   @Patch('basic-details')
   @ApiBearerAuth()
@@ -168,6 +189,12 @@ export class AuthController {
     return this.authService.updateBasicDetails(user.id, updateDetailDto);
   }
 
+  /**
+   * Change the password of the authenticated user.
+   * @param changePasswordDto - Details for changing the password (current and new passwords).
+   * @param user - The authenticated user.
+   * @returns A success message if the password is updated.
+   */
   @UseGuards(JwtAuthGuard)
   @Patch('change-password')
   @ApiBearerAuth()
@@ -204,6 +231,11 @@ export class AuthController {
     return this.authService.updatePassword(user.id, changePasswordDto);
   }
 
+  /**
+   * Permanently delete the authenticated user account.
+   * @param user - The authenticated user.
+   * @returns A success message if the account is deleted.
+   */
   @UseGuards(JwtAuthGuard)
   @Delete('delete-account')
   @ApiBearerAuth()

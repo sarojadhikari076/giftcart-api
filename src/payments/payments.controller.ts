@@ -8,10 +8,22 @@ import {
 import { PaymentsService } from './payments.service';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 
-@ApiTags('Stripe') // Grouping the controller's endpoints under 'Stripe' in Swagger
-@Controller('stripe') // Base route for Stripe-related endpoints
+/**
+ * StripeController handles Stripe-related payment operations.
+ *
+ * @param {PaymentsService} paymentsService - The service used to interact with Stripe's API.
+ */
+@ApiTags('Stripe')
+@Controller('stripe')
 export class StripeController {
   constructor(private readonly paymentsService: PaymentsService) {}
+
+  /**
+   * Create a new payment intent for the specified amount.
+   *
+   * @param {number} amount - The amount to be charged in pence (e.g., 5000 for £50.00).
+   * @returns {object} The client secret for the payment intent.
+   */
 
   @Post('create-payment-intent')
   @ApiOperation({

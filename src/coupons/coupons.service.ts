@@ -3,20 +3,30 @@ import { CreateCouponDto } from './dto/create-coupon.dto';
 import { UpdateCouponDto } from './dto/update-coupon.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { addDays } from 'date-fns';
+import { Coupon, Prisma } from '@prisma/client';
 
 @Injectable()
 export class CouponsService {
   constructor(private prisma: PrismaService) {}
 
-  // Create a new coupon
-  create(createCouponDto: CreateCouponDto) {
+  /**
+   * Creates a new coupon.
+   * @param {CreateCouponDto} createCouponDto - Data transfer object for creating a coupon.
+   * @returns {Promise<Coupon>} The created coupon.
+   */
+  create(createCouponDto: CreateCouponDto): Promise<Coupon> {
     return this.prisma.coupon.create({
       data: createCouponDto,
     });
   }
 
-  // Get a birthday coupon valid for the next week
-  async getBirthdayCoupon(userId: number) {
+  /**
+   * Retrieves a birthday coupon valid for the next week.
+   * @param {number} userId - The ID of the user.
+   * @returns {Promise<Coupon>} The birthday coupon.
+   * @throws {HttpException} If no valid birthday coupon is found.
+   */
+  async getBirthdayCoupon(userId: number): Promise<Coupon> {
     const today = new Date();
     const nextWeek = addDays(today, 6);
 
@@ -43,9 +53,13 @@ export class CouponsService {
     return coupon;
   }
 
-  // Check if a birthday coupon has been redeemed in the last week
-  isBirthdayCouponRedeemed(userId: number) {
-    const lastWeek = addDays(new Date(), -7);
+  /**
+   * Checks if a birthday coupon has been redeemed in the last year.
+   * @param {number} userId - The ID of the user.
+   * @returns {Promise<Coupon | null>} The redeemed birthday coupon or null if not found.
+   */
+  isBirthdayCouponRedeemed(userId: number): Promise<Coupon | null> {
+    const oneYearAgo = addDays(new Date(), -360);
 
     return this.prisma.coupon.findFirst({
       where: {
@@ -54,16 +68,22 @@ export class CouponsService {
           startsWith: 'BDAY-',
         },
         validFrom: {
-          gte: lastWeek,
+          gte: oneYearAgo,
         },
         redeemed: 1,
       },
     });
   }
 
-  // Check coupon validity and return discount
-  async checkValidities(code: string, userId: number) {
-    if (code.trim() === '') return 0;
+  /**
+   * Checks coupon validity and returns the discount.
+   * @param {string} code - The coupon code.
+   * @param {number} userId - The ID of the user.
+   * @returns {Promise<number>} The discount value.
+   * @throws {HttpException} If the coupon is not found, does not belong to the user, has been redeemed, or is not valid for the current date.
+   */
+  async checkValidities(code: string, userId: number): Promise<number> {
+    if (code === undefined || code.trim() === '') return 0;
 
     const coupon = await this.prisma.coupon.findUnique({
       where: {
@@ -91,8 +111,14 @@ export class CouponsService {
     return coupon.discount;
   }
 
-  // Redeem a coupon
-  async redeemCoupon(code: string, userId: number) {
+  /**
+   * Redeems a coupon.
+   * @param {string} code - The coupon code.
+   * @param {number} userId - The ID of the user.
+   * @returns {Promise<void>}
+   * @throws {HttpException} If the coupon is not found.
+   */
+  async redeemCoupon(code: string, userId: number): Promise<void> {
     const coupon = await this.prisma.coupon.update({
       where: {
         code,
@@ -110,13 +136,20 @@ export class CouponsService {
     }
   }
 
-  // Find all coupons
-  findAll() {
+  /**
+   * Finds all coupons.
+   * @returns {Promise<Coupon[]>} A list of all coupons.
+   */
+  findAll(): Promise<Coupon[]> {
     return this.prisma.coupon.findMany();
   }
 
-  // Find a coupon by ID
-  findOne(id: number) {
+  /**
+   * Finds a coupon by ID.
+   * @param {number} id - The ID of the coupon.
+   * @returns {Promise<Coupon | null>} The coupon or null if not found.
+   */
+  findOne(id: number): Promise<Coupon | null> {
     return this.prisma.coupon.findUnique({
       where: {
         id,
@@ -124,8 +157,13 @@ export class CouponsService {
     });
   }
 
-  // Update a coupon
-  update(id: number, updateCouponDto: UpdateCouponDto) {
+  /**
+   * Updates a coupon.
+   * @param {number} id - The ID of the coupon.
+   * @param {UpdateCouponDto} updateCouponDto - Data transfer object for updating a coupon.
+   * @returns {Promise<Coupon>} The updated coupon.
+   */
+  update(id: number, updateCouponDto: UpdateCouponDto): Promise<Coupon> {
     return this.prisma.coupon.update({
       where: {
         id,
@@ -134,8 +172,12 @@ export class CouponsService {
     });
   }
 
-  // Remove a coupon
-  remove(id: number) {
+  /**
+   * Removes a coupon.
+   * @param {number} id - The ID of the coupon.
+   * @returns {Promise<Coupon>} The removed coupon.
+   */
+  remove(id: number): Promise<Coupon> {
     return this.prisma.coupon.delete({
       where: {
         id,
@@ -143,8 +185,11 @@ export class CouponsService {
     });
   }
 
-  // Remove all coupons
-  removeAll() {
+  /**
+   * Removes all coupons.
+   * @returns {Promise<Prisma.BatchPayload>} The result of the delete operation.
+   */
+  removeAll(): Promise<Prisma.BatchPayload> {
     return this.prisma.coupon.deleteMany();
   }
 }

@@ -3,7 +3,7 @@ import { CouponsService } from './coupons.service';
 import { CreateCouponDto } from './dto/create-coupon.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { GetUser } from 'src/users/get-user.decorator';
-import { User } from '@prisma/client';
+import { Role, User } from '@prisma/client';
 import { Throttle } from '@nestjs/throttler';
 import {
   ApiTags,
@@ -12,7 +12,11 @@ import {
   ApiOperation,
   ApiUnauthorizedResponse,
   ApiBadRequestResponse,
+  ApiBearerAuth,
+  ApiForbiddenResponse,
 } from '@nestjs/swagger';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { Roles } from 'src/auth/roles.decorator';
 
 @UseGuards(JwtAuthGuard)
 @ApiTags('Coupons')
@@ -20,6 +24,11 @@ import {
 export class CouponsController {
   constructor(private readonly couponsService: CouponsService) {}
 
+  /**
+   * Create a new coupon.
+   * @param createCouponDto - Data transfer object containing coupon details.
+   * @returns The created coupon.
+   */
   @Post()
   @ApiOperation({
     summary: 'Create a new coupon',
@@ -37,6 +46,12 @@ export class CouponsController {
     return this.couponsService.create(createCouponDto);
   }
 
+  /**
+   * Check coupon validity for the current user.
+   * @param body - Object containing the coupon code.
+   * @param user - The current authenticated user.
+   * @returns Validity status of the coupon.
+   */
   @Post('check-validities')
   @ApiOperation({
     summary: 'Check coupon validity',
@@ -49,6 +64,11 @@ export class CouponsController {
     return this.couponsService.checkValidities(body.coupon, user.id);
   }
 
+  /**
+   * Retrieve a special birthday coupon for the current user.
+   * @param user - The current authenticated user.
+   * @returns Birthday coupon details.
+   */
   @Throttle({ default: { limit: 10, ttl: 3600 } })
   @Get('birthday')
   @ApiOperation({
@@ -62,6 +82,13 @@ export class CouponsController {
     return this.couponsService.getBirthdayCoupon(user.id);
   }
 
+  /**
+   * Remove all coupons from the system.
+   * @returns Confirmation of coupon removal.
+   */
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @Delete('/remove-all')
   @ApiOperation({
     summary: 'Remove all coupons',
@@ -69,6 +96,11 @@ export class CouponsController {
       'Delete all discount coupons from the system. This action is irreversible and should be used with caution.',
   })
   @ApiOkResponse({ description: 'All coupons have been removed successfully.' })
+  @ApiUnauthorizedResponse({ description: 'User is not authorized.' })
+  @ApiBadRequestResponse({ description: 'Invalid request.' })
+  @ApiForbiddenResponse({
+    description: 'User does not have the required role.',
+  })
   removeAll() {
     return this.couponsService.removeAll();
   }

@@ -1,7 +1,14 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
+/**
+ * DTO for updating user details.
+ */
 export class UpdateDetailDto {
+  /**
+   * The updated email address of the user.
+   * @example 'user@example.com'
+   */
   @ApiProperty({
     description: 'The updated email address of the user.',
     example: 'user@example.com',
@@ -11,6 +18,10 @@ export class UpdateDetailDto {
   @IsNotEmpty({ message: 'Email is required.' })
   email: string;
 
+  /**
+   * The updated phone number of the user.
+   * @example '+441234567890'
+   */
   @ApiProperty({
     description: 'The updated phone number of the user.',
     example: '+441234567890',
@@ -20,6 +31,10 @@ export class UpdateDetailDto {
   @IsNotEmpty({ message: 'Phone is required.' })
   phone: string;
 
+  /**
+   * The updated full name of the user.
+   * @example 'John Doe'
+   */
   @ApiProperty({
     description: 'The updated full name of the user.',
     example: 'John Doe',
@@ -29,6 +44,10 @@ export class UpdateDetailDto {
   @IsNotEmpty({ message: 'Name is required.' })
   name: string;
 
+  /**
+   * The updated gender of the user.
+   * @example 'Male'
+   */
   @ApiProperty({
     description: 'The updated gender of the user.',
     example: 'Male',
@@ -38,6 +57,10 @@ export class UpdateDetailDto {
   @IsNotEmpty({ message: 'Gender is required.' })
   gender: string;
 
+  /**
+   * The updated date of birth of the user (in YYYY-MM-DD format).
+   * @example '1990-01-01'
+   */
   @ApiProperty({
     description:
       'The updated date of birth of the user (in YYYY-MM-DD format).',
@@ -48,6 +71,10 @@ export class UpdateDetailDto {
   @IsNotEmpty({ message: 'Date of birth is required.' })
   dateOfBirth: string | Date;
 
+  /**
+   * The updated address of the user.
+   * @example '123 Street, City, Country'
+   */
   @ApiProperty({
     description: 'The updated address of the user.',
     example: '123 Street, City, Country',
@@ -57,6 +84,10 @@ export class UpdateDetailDto {
   @IsNotEmpty({ message: 'Address is required.' })
   address: string;
 
+  /**
+   * The updated password of the user (optional).
+   * @example 'newPassword123'
+   */
   @ApiPropertyOptional({
     description: 'The updated password of the user (optional).',
     example: 'newPassword123',

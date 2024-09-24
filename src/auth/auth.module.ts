@@ -8,14 +8,23 @@ import { UsersModule } from 'src/users/users.module';
 import { JwtStrategy } from './jwt.strategy';
 import { LocalStrategy } from './local.strategy';
 import { UsersService } from 'src/users/users.service';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
+/**
+ * The AuthModule is responsible for handling authentication and authorization.
+ * It imports necessary modules and provides services and strategies for authentication.
+ */
 @Module({
   imports: [
     PrismaModule,
     PassportModule,
-    JwtModule.register({
-      secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '10d' },
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        secret: configService.get<string>('JWT_SECRET'),
+        signOptions: { expiresIn: '10d' },
+      }),
+      inject: [ConfigService],
     }),
     UsersModule,
   ],

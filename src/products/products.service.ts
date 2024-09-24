@@ -3,6 +3,7 @@ import { CouponsService } from 'src/coupons/coupons.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UsersService } from 'src/users/users.service';
 import { SearchProductDto } from './dto/search-product.dto';
+import { Product, SearchHistory } from '@prisma/client';
 
 @Injectable()
 export class ProductsService {
@@ -12,7 +13,13 @@ export class ProductsService {
     private couponService: CouponsService,
   ) {}
 
-  findAll(queries: SearchProductDto) {
+  /**
+   * Retrieves a list of products based on search and filter queries.
+   *
+   * @param {SearchProductDto} queries - Query parameters for search, category, sort, and price range.
+   * @returns {Promise<Product[]>} - A promise that resolves to an array of products.
+   */
+  findAll(queries: SearchProductDto): Promise<Product[]> {
     const { query, category, sort, priceRange, take } = queries;
 
     const where = {};
@@ -51,7 +58,12 @@ export class ProductsService {
     });
   }
 
-  findNewArrivals() {
+  /**
+   * Retrieves the latest 10 products that are marked as new arrivals.
+   *
+   * @returns {Promise<Product[]>} - A promise that resolves to an array of new arrival products.
+   */
+  findNewArrivals(): Promise<Product[]> {
     return this.prisma.product.findMany({
       orderBy: {
         createdAt: 'desc',
@@ -60,7 +72,12 @@ export class ProductsService {
     });
   }
 
-  findFeatured() {
+  /**
+   * Retrieves up to 10 products that have an average rating of 4 or higher.
+   *
+   * @returns {Promise<Product[]>} - A promise that resolves to an array of featured products.
+   */
+  findFeatured(): Promise<Product[]> {
     return this.prisma.product.findMany({
       where: {
         averageRating: {
@@ -71,7 +88,12 @@ export class ProductsService {
     });
   }
 
-  findBestSelling() {
+  /**
+   * Retrieves up to 8 best-selling products based on available quantity and rating.
+   *
+   * @returns {Promise<Product[]>} - A promise that resolves to an array of best-selling products.
+   */
+  findBestSelling(): Promise<Product[]> {
     return this.prisma.product.findMany({
       where: {
         averageRating: {
@@ -85,7 +107,17 @@ export class ProductsService {
     });
   }
 
-  async upsertSearchHistory(userId: number, productId: number) {
+  /**
+   * Updates or creates search history for a specific product for the logged-in user.
+   *
+   * @param {number} userId - ID of the logged-in user.
+   * @param {number} productId - ID of the product.
+   * @returns {Promise<SearchHistory>} - A promise that resolves to the updated or created search history.
+   */
+  async upsertSearchHistory(
+    userId: number,
+    productId: number,
+  ): Promise<SearchHistory> {
     const searchHistory = await this.prisma.searchHistory.findFirst({
       where: {
         userId,
@@ -115,13 +147,21 @@ export class ProductsService {
     });
   }
 
-  async findBirthdayProducts(userId: number) {
+  /**
+   * Retrieves personalized birthday products or discounts for the user.
+   * If the user’s birthday is within a week and no birthday coupon has been redeemed,
+   * products based on user’s search history, common tags, and favorite category will be recommended.
+   *
+   * @param {number} userId - ID of the user.
+   * @returns {Promise<Product[]>} - A promise that resolves to an array of recommended birthday products.
+   */
+  async findBirthdayProducts(userId: number): Promise<Product[]> {
     const isBirthdayWithinNextWeek =
       await this.userService.isBirthdayWithinNextWeek(userId);
     const isRedeemed =
       await this.couponService.isBirthdayCouponRedeemed(userId);
 
-    if (isBirthdayWithinNextWeek === false || isRedeemed) {
+    if (!isBirthdayWithinNextWeek || isRedeemed) {
       return [];
     }
 
@@ -148,7 +188,13 @@ export class ProductsService {
     return recommendedProducts;
   }
 
-  private async getTopSearchedProductIds(userId: number) {
+  /**
+   * Retrieves the top 5 most searched product IDs for the user.
+   *
+   * @param {number} userId - ID of the user.
+   * @returns {Promise<number[]>} - A promise that resolves to an array of product IDs.
+   */
+  private async getTopSearchedProductIds(userId: number): Promise<number[]> {
     const searchHistory = await this.prisma.searchHistory.findMany({
       where: { userId },
       orderBy: { searchCount: 'desc' },
@@ -158,7 +204,13 @@ export class ProductsService {
     return searchHistory.map((history) => history.productId);
   }
 
-  private async getCommonTags(userId: number) {
+  /**
+   * Retrieves the 5 most common tags from the user’s search history.
+   *
+   * @param {number} userId - ID of the user.
+   * @returns {Promise<string[]>} - A promise that resolves to an array of common tags.
+   */
+  private async getCommonTags(userId: number): Promise<string[]> {
     const searchHistory = await this.prisma.searchHistory.findMany({
       where: { userId },
       include: { product: true },
@@ -175,7 +227,15 @@ export class ProductsService {
       .slice(0, 5);
   }
 
-  private async getUserFavoriteCategory(userId: number) {
+  /**
+   * Retrieves the most frequently purchased product category by the user.
+   *
+   * @param {number} userId - ID of the user.
+   * @returns {Promise<number | undefined>} - A promise that resolves to the user’s favourite category ID, or undefined if no orders exist.
+   */
+  private async getUserFavoriteCategory(
+    userId: number,
+  ): Promise<number | undefined> {
     const orderProducts = await this.prisma.orderProduct.findMany({
       where: { order: { userId } },
       include: { product: true },
@@ -195,7 +255,15 @@ export class ProductsService {
     );
   }
 
-  async findOne(slug: string) {
+  /**
+   * Retrieves product details by its slug, along with a list of similar products in the same category.
+   *
+   * @param {string} slug - The slug of the product.
+   * @returns {Promise<{ product: Product, similarProducts: Product[] }>} - A promise that resolves to the product details and similar products.
+   */
+  async findOne(
+    slug: string,
+  ): Promise<{ product: Product; similarProducts: Product[] }> {
     const product = await this.prisma.product.findUnique({
       where: {
         slug,

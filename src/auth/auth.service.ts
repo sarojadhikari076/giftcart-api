@@ -11,6 +11,7 @@ import { UsersService } from 'src/users/users.service';
 import { RegisterDto } from './dto/register.dto';
 import { UpdateDetailDto } from './dto/update-detail.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
@@ -20,7 +21,13 @@ export class AuthService {
     private usersService: UsersService,
   ) {}
 
-  async validateUser(email: string, password: string) {
+  /**
+   * Validates a user by email and password.
+   * @param email - The user's email.
+   * @param password - The user's password.
+   * @returns The user if validation is successful, otherwise null.
+   */
+  async validateUser(email: string, password: string): Promise<User | null> {
     const user = await this.usersService.findByEmail(email);
 
     if (user && (await compare(password, user.password))) {
@@ -30,6 +37,14 @@ export class AuthService {
     return null;
   }
 
+  /**
+   * Logs in a user and returns an access token.
+   * @param email - The user's email.
+   * @param password - The user's password.
+   * @returns An AuthEntity containing the access token and user.
+   * @throws NotFoundException if the user is not found.
+   * @throws UnauthorizedException if the password is invalid.
+   */
   async login(email: string, password: string): Promise<AuthEntity> {
     const user = await this.prisma.user.findUnique({
       where: { email },
@@ -44,13 +59,21 @@ export class AuthService {
       throw new UnauthorizedException('Invalid password');
     }
 
+    delete user.password; // Remove password before returning user
+
     return {
       accessToken: this.jwtService.sign({ userId: user.id }),
       user,
     };
   }
 
-  async register(registerDto: RegisterDto) {
+  /**
+   * Registers a new user.
+   * @param registerDto - The registration details.
+   * @returns An AuthEntity containing the access token and new user.
+   * @throws UnauthorizedException if the email is already taken.
+   */
+  async register(registerDto: RegisterDto): Promise<AuthEntity> {
     const existingUser = await this.prisma.user.findUnique({
       where: { email: registerDto.email },
     });
@@ -78,7 +101,13 @@ export class AuthService {
     };
   }
 
-  async getMe(userId: number) {
+  /**
+   * Retrieves the authenticated user's details.
+   * @param userId - The user's ID.
+   * @returns The user's details.
+   * @throws NotFoundException if the user is not found.
+   */
+  async getMe(userId: number): Promise<User> {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
     });
@@ -90,7 +119,17 @@ export class AuthService {
     return user;
   }
 
-  async updateBasicDetails(userId: number, body: UpdateDetailDto) {
+  /**
+   * Updates the basic details of a user.
+   * @param userId - The user's ID.
+   * @param body - The details to update.
+   * @returns The updated user.
+   * @throws UnauthorizedException if attempting to update the password.
+   */
+  async updateBasicDetails(
+    userId: number,
+    body: UpdateDetailDto,
+  ): Promise<User> {
     if (body.password) {
       throw new UnauthorizedException(
         'Cannot update password using this endpoint',
@@ -109,7 +148,15 @@ export class AuthService {
     return user;
   }
 
-  async updatePassword(userId: number, data: ChangePasswordDto) {
+  /**
+   * Updates the password of a user.
+   * @param userId - The user's ID.
+   * @param data - The password change details.
+   * @returns The updated user.
+   * @throws NotFoundException if the user is not found.
+   * @throws UnauthorizedException if the current password is invalid.
+   */
+  async updatePassword(userId: number, data: ChangePasswordDto): Promise<User> {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
     });
@@ -120,7 +167,7 @@ export class AuthService {
 
     const isPasswordValid = await compare(data.currentPassword, user.password);
     if (!isPasswordValid) {
-      throw new UnauthorizedException('Invalid password');
+      throw new UnauthorizedException('Invalid current password');
     }
 
     const hashedPassword = await hash(data.newPassword, 10);
@@ -131,9 +178,16 @@ export class AuthService {
     });
   }
 
-  async deleteAccount(userId: number) {
-    return this.prisma.user.delete({
+  /**
+   * Deletes a user's account.
+   * @param userId - The user's ID.
+   * @returns The deleted user.
+   * @throws NotFoundException if the user is not found.
+   */
+  async deleteAccount(userId: number): Promise<User> {
+    const user = await this.prisma.user.delete({
       where: { id: userId },
     });
+    return user;
   }
 }

@@ -15,6 +15,29 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { BullModule } from '@nestjs/bull';
 
+/**
+ * The main application module for the Gift Cart API.
+ *
+ * This module imports and configures various feature modules and global services
+ * required by the application, including:
+ * - CategoriesModule
+ * - ProductsModule
+ * - UsersModule
+ * - AuthModule
+ * - FaqsModule
+ * - CartsModule
+ * - OrdersModule
+ * - CouponsModule
+ * - EmailModule
+ * - ScheduleModule: Configured with default settings.
+ * - ConfigModule: Configured to be global.
+ * - BullModule: Configured for Redis with host and port from environment variables.
+ * - ThrottlerModule: Configured with a time-to-live (ttl) of 3600 seconds and a limit of 10000 requests.
+ *
+ * It also defines the main application controller and service.
+ *
+ * @module AppModule
+ */
 @Module({
   imports: [
     CategoriesModule,
@@ -39,7 +62,7 @@ import { BullModule } from '@nestjs/bull';
     ThrottlerModule.forRoot([
       {
         ttl: 3600,
-        limit: 1,
+        limit: 10000,
       },
     ]),
   ],

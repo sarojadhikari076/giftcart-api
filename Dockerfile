@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Install dependencies with architecture flag
-RUN npm install --only=production --arch=arm64
+RUN npm install --only=production --arch=arm64 --legacy-peer-deps
 
 # Install Nest CLI globally
 RUN npm install -g @nestjs/cli
@@ -23,8 +23,10 @@ COPY . .
 # Ensure prisma directory is copied
 COPY prisma ./prisma
 
+RUN npm install @jozefazz/nestjs-redoc --save --legacy-peer-deps
+
 # Install necessary dev dependencies for seeding (typescript, ts-node)
-RUN npm install ts-node typescript @types/node --save-dev
+RUN npm install ts-node typescript @types/node --save-dev --legacy-peer-deps
 
 # Generate Prisma client
 RUN npx prisma generate
